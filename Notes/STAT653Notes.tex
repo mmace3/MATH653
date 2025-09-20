@@ -1,0 +1,304 @@
+\documentclass[12pt]{article}
+
+%\documentclass{amsart}
+%\documentclass{scrartcl}
+%\usepackage{changepage}
+%\usepackage{scrextend}
+
+\usepackage{amssymb,amsmath,amsthm}
+% amssymb has empty set symbo
+\usepackage{scrextend} % for \begin{addmargin}[0.55cm]{0cm} text \end{margin}
+
+\usepackage{mathrsfs} % for \mathscr{P}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{hanging}
+\usepackage{verbatim}
+\usepackage{mathtools}
+\usepackage{pst-node}%
+
+\newcommand{\n}{ \noindent }
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\U}{\mathcal{U}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\newcommand{\pwset}{\mathcal{P}}
+%\newcommand{\pwset}{\mathscr{P}}
+\DeclareMathOperator{\LO}{\mathcal{L}}
+
+\DeclareMathOperator{\proj}{proj}
+\newcommand{\vct}{\mathbf}
+\newcommand{\vctproj}[2][]{\proj_{\vct{#1}}\vct{#2}}
+
+
+%https://tex.stackexchange.com/questions/22252/how-to-typeset-function-restrictions
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+  }}
+
+% from https://tex.stackexchange.com/questions/644238/drawing-the-phase-portrait-of-two-differential-equations
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.8}
+% \usepackage{amsmath}
+% \usepackage{derivative}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+\usetikzlibrary{decorations.markings}
+\usepackage{amsmath}
+\usepackage{derivative}
+
+
+%\DeclareFontFamily{U}{MnSymbolC}{}
+%\DeclareSymbolFont{MnSyC}{U}{MnSymbolC}{m}{n}
+%\DeclareFontShape{U}{MnSymbolC}{m}{n}{
+%  <-6>    MnSymbolC5
+%  <6-7>   MnSymbolC6
+%  <7-8>   MnSymbolC7
+%  <8-9>   MnSymbolC8
+%  <9-10>  MnSymbolC9
+%  <10-12> MnSymbolC10
+%  <12->   MnSymbolC12%
+%}{}
+%\DeclareMathSymbol{\powerset}{\mathord}{MnSyC}{180}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\overtilde}[1]{\mkern 1.5mu\widetilde{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[left=1.2in, right=1.2in, top=1in, bottom=1in]{geometry}
+
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem*{example}{Example}
+\newtheorem{theorem}{Theorem}[section]  % This enables \begin{theorem}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{claim}{Claim}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\innerproduct}[2]{\langle #1, #2 \rangle}
+\DeclareMathOperator{\Tr}{Tr} 
+
+\setcounter{MaxMatrixCols}{20}
+
+\title{STAT 653 - Notes \\
+Introduction to Mathematical Statistics}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Statistical Model}
+
+\begin{example}
+A coin is tossed $n$ times. The data available is $X = (X_1, X_2, \ldots, X_n)$, 
+where $X_i \in \{0, 1\}$. The assumptions are:
+
+\begin{enumerate}
+\item outcomes are independent.
+\item $P(X_i = 1) = \theta \in \Theta$ where $\theta$ is an unknown parameter
+and $\Theta$ is the parameter space. In this case $\Theta = [0,1]$.
+\end{enumerate}
+
+We need to estimate $\theta$ based on the data $X = (X_1, X_2, \ldots, X_n)$,
+where $X_i$ are random variables before the experiment is conducted. \\
+
+So we need to find an estimator $T(X_1, X_2, \ldots, X_n)$ of $\theta \in \Theta$.\\
+
+\underline{\textbf{Possible Estimators}}
+
+\begin{enumerate}
+
+\item $\displaystyle T_1 := T_1 (X_1, X_2, \ldots, X_n) = \overbar{X}_n = \frac{1}{n} \sum_{i = 1}^{n} X_i$
+
+\begin{remark}
+\begin{enumerate}[label = (\alph*)]
+\item $\displaystyle \mathbb{E}(T_1) = \mathbb{E}(\overbar{X}_n) = \mathbb{E}(X_1) = \theta$
+for all $\theta \in \Theta$ then $T_1$ is unbiased estimator of $\theta$.
+
+\item $\lim_{n \rightarrow \infty} P(| \overbar{X}_n - \theta| > \epsilon ) = 0$ for all
+$\epsilon > 0$.
+\end{enumerate}
+\end{remark}
+
+
+\begin{definition}
+In general, if $\displaystyle \lim_{n \rightarrow \infty} P(|T(X_1, \ldots, X_n) - \theta|  \epsilon) = 0$
+for all $\epsilon > 0$ and for all $\theta \in \Theta$, then we call 
+$T(X_1, \ldots, X_n)$ \textbf{consistent}.
+\end{definition}
+
+\item $T_2(X_1, \ldots, X_n) := X_1$, where $X_1 \in \{0, 1\}$. Then
+$\mathbb{E}(T_2) = \mathbb{E}(X_1) = \theta$ for all $\theta \in \Theta$.\\
+
+$T_2$ is unbiased but is not \underline{consistent}.
+
+\item 
+\begin{align*}
+T_3 &:= T_3(X_1, \ldots, X_n) \\
+&= \sqrt{\frac{1}{\lfloor \frac{n}{2} \rfloor} \sum_{i = 1}^{\lfloor \frac{n}{2} \rfloor} X_{2i} X_{2i-1} }
+\end{align*}
+
+$T_3$ is biased because
+
+\begin{align*}
+\mathbb{E}(T_3) &\leq \sqrt{\frac{1}{\lfloor \frac{n}{2} \rfloor} \sum_{i = 1}^{\lfloor \frac{n}{2} \rfloor} X_{2i} X_{2i-1} } \\
+&= \theta \quad\quad \forall \theta \in \Theta
+\end{align*}
+
+\end{enumerate}
+\end{example}
+
+\begin{example}
+Suppose $X_1, X_2, \ldots, X_n$ are independent and have uniform$[0, \theta]$,
+where $theta \in \Theta = \mathbb{R}_+$. So $\Theta = \{\theta : \theta > 0\}$. \\
+
+
+\underline{\textbf{Possible Estimators}}
+
+\begin{enumerate}
+\item $T_1(X_1, \ldots, X_n) = 2\overbar{X}_n$
+
+\item $T_2(X_1, \ldots, X_n) = X_{(n)}$ (max)
+
+\item $T_3(X_1, \ldots, X_n) = c_n X_{(n)}$
+
+Correct the max by a constant so it is unbiased.
+\end{enumerate}
+\end{example}
+
+\begin{example}
+We want to receive a shipment of oranges and suspect that part of them
+rot off. To check the shipment we draw a random sample without replacement
+of size $n$ from the shipment (population) of size $N$.\\
+
+Let $\theta$ be the proportion of bad oranges in the population. So
+$\Theta = \{ \frac{0}{N}, \frac{1}{N}, \ldots, \frac{N}{N} \}$.\\
+
+Let
+
+\begin{equation*}
+X_i =
+\begin{cases*}
+0 & if good \\
+1 & if bad
+\end{cases*}
+\end{equation*}
+
+for $i = 1, 2, \ldots, n$ and let $X = (X_1, X_2, \ldots, X_n)$.\\
+
+Let $\displaystyle T_1(X) = \sum^{n}_{i = 1} X_i$. Then $T_1$ has a
+hypergeometric distribution. So
+
+\begin{equation*}
+P_{\theta}(X_1 = k) = \frac{ \left( \frac{N\theta}{k} \right) \left( \frac{N - N\theta}{n-k} \right)}
+{ \left( \frac{N}{n} \right) }
+\end{equation*}
+
+for $k \in \{ \max(0, n - (N - N\theta), \ldots, \min(n, N\theta))\}$
+\end{example}
+
+\section{The Likelihood Function}
+
+$$ X \sim P_{\theta}, \quad\quad \theta \in \Theta $$
+
+We have 2 cases for now (discrete and continuous):
+
+\begin{enumerate}[label = (R\arabic*)]
+\item $P_{\theta}$ is defined by a joint pdf $f_X (x; \theta)$ for all $\theta \in \Theta$.
+\item $P_{\theta}$ is defined by a joint pmf $P(X = x; \theta)$ for all $\theta \in \Theta$.
+\end{enumerate}
+
+\begin{definition}
+Let $P_{\theta}$, $\theta \in \Theta$ be a model satisfying (R1) or (R2). Then the function
+
+\begin{equation*}
+L(x; \theta) =
+\begin{cases*}
+f_X(x; \theta) & if (R1) \\
+P(X = x; \theta) & if (R2)
+\end{cases*}.
+\end{equation*}
+\end{definition}
+
+\begin{example}
+Not (R1) and not (R2).
+
+Let
+
+$$ X \sim N(\theta, 1) \quad\quad \theta \in \Theta = \mathbb{R}. $$
+
+We observe $Y = \max(0, X)$, 
+
+\begin{equation*}
+Y =
+\begin{cases*}
+0 & if $X \leq 0 $\\
+X & if $ X > 0$
+\end{cases*}
+= X I(X > 0)
+\end{equation*}
+
+where $I(\cdot)$ is the indicator function.\\
+
+$F_{\theta} (t) = P(Y \leq t)$ for all $t \in \mathbb{R}$.
+\end{example}
+
+\begin{example}
+Back to oranges example where $X = (X_1, X_2, \ldots, X_n)$ is the data
+and $\Theta = \{ \frac{0}{N}, \frac{1}{N}, \ldots, \frac{N}{N} \}$. Let
+$\displaystyle T(X) = \sum^{n}_{i=1} X_i$. Then
+
+\begin{align*}
+L(x; \theta) &= P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) \\
+&= P_{\theta}\left(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n, T(X) = \sum^{n}_{i=1} x_i \right) \\
+&= P_{\theta}\left(T(X) = \sum^{n}_{i=1} x_i\right)P\left(X_1 = x_1, \ldots, X_n = x_n \middle|\  T(X) = \sum^{n}_{i=1} x_i \right).
+\end{align*}
+
+Now define $K_n = \sum^{n}_{i=1} x_i$. For example, if $n = 5$ and 
+we observed $(1, 0, 0, 1, 1)$ then
+
+$$ K = \sum_{i=1}^{5} x_i = 3. $$
+
+Then
+
+\begin{equation*}
+L(x; \theta) = \frac{ \binom{N\theta}{K_n} \binom{N-N\theta}{n - K_n}}
+{\binom{N}{n}} \cdot \left[ \frac{1}{\binom{n}{K_n}} \right].
+\end{equation*}
+
+\end{example}
+
+
+
+
+
+
+
+
+\section{Maximum Likelihood}
+
+\begin{example}
+Let $X_1, \ldots, X_n \overset{iid}{\sim} uniform[0,\theta]$. Find the MLE for $\theta$.
+\end{example}
+
+
+
+
+\end{document}
+
