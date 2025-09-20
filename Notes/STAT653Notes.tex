@@ -90,9 +90,17 @@
 \newtheorem*{corollary}{Corollary}
 \newtheorem*{claim}{Claim}
 \newtheorem*{remark}{Remark}
+\newtheorem*{result}{Result}
 
 \newcommand{\innerproduct}[2]{\langle #1, #2 \rangle}
 \DeclareMathOperator{\Tr}{Tr} 
+
+\makeatletter
+\newcommand{\@giventhatstar}[2]{\left(#1\;\middle|\;#2\right)}
+\newcommand{\@giventhatnostar}[3][]{#1(#2\;#1|\;#3#1)}
+\newcommand{\giventhat}{\@ifstar\@giventhatstar\@giventhatnostar}
+\makeatother
+
 
 \setcounter{MaxMatrixCols}{20}
 
@@ -267,28 +275,121 @@ $\displaystyle T(X) = \sum^{n}_{i=1} X_i$. Then
 \begin{align*}
 L(x; \theta) &= P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n) \\
 &= P_{\theta}\left(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n, T(X) = \sum^{n}_{i=1} x_i \right) \\
-&= P_{\theta}\left(T(X) = \sum^{n}_{i=1} x_i\right)P\left(X_1 = x_1, \ldots, X_n = x_n \middle|\  T(X) = \sum^{n}_{i=1} x_i \right).
+&= P_{\theta}\left(T(X) = \sum^{n}_{i=1} x_i\right)P\left(X_1 = x_1, \ldots, X_n = x_n \; \middle|\;  T(X) = \sum^{n}_{i=1} x_i \right).
 \end{align*}
+
 
 Now define $K_n = \sum^{n}_{i=1} x_i$. For example, if $n = 5$ and 
 we observed $(1, 0, 0, 1, 1)$ then
 
 $$ K = \sum_{i=1}^{5} x_i = 3. $$
 
+Since there are 10 possibilities for which entries are 1 versus 0,
+$\binom{5}{3} = 10$. Because all possible combinations of 1 and 0 
+are possible we can use symmetry to calculate the probability of
+any particular sequence of 1 and 0 as $1/\binom{5}{3}$. We use 
+this reasoning below to derive the expression on the right. 
+
 Then
 
 \begin{equation*}
 L(x; \theta) = \frac{ \binom{N\theta}{K_n} \binom{N-N\theta}{n - K_n}}
-{\binom{N}{n}} \cdot \left[ \frac{1}{\binom{n}{K_n}} \right].
+{\binom{N}{n}} \times \frac{1}{\binom{n}{K_n}}.
 \end{equation*}
-
 \end{example}
 
+\section{Identifiability of Statistical Models}
+
+\begin{definition}
+Let $X \sim P_{\theta}$, $\theta \in \Theta$. A model $P_{\theta}$,
+$\theta \in \Theta$ is \underline{identifiable} if for any pair 
+$(\theta, \theta^{\prime})$ such that $\theta \neq \theta^{\prime}$
+and $\theta, \theta^{\prime} \in \Theta$, then
+$P_{\theta} \neq P_{\theta^{\prime}}$.
+\end{definition}
+
+\begin{remark}
+This means that there is an event $A$, such that 
+$P_{\theta}(A) \neq P_{\theta^{\prime}}$ where 
+$\theta \neq \theta^{\prime}$.
+
+\begin{enumerate}[label = R(\arabic*)]
+\item For $\theta \neq \theta^{\prime}$, 
+$f(x; \theta) \neq f(x; \theta^{\prime})$ for any neighborhood of
+$x$ (an open ball $B(x, r)$ centered at $x$).
+
+By open ball we mean $B(x, r) = \{y : |x-y| < \epsilon \}$ where 
+$|v| = (\sum^{n}_{i = 1} v_i^2 )^{1/2}$ (euclidean norm).
+
+\item Discrete support, for some $x$
+$P_{\theta}(X = x) \neq P_{\theta^{\prime}}(X = x)$ where
+$\theta \neq \theta^{\prime}$.
+
+\end{enumerate}
+\end{remark}
+
+\begin{example}
+Suppose we observe $X_1, X_2, \ldots, X_n$ where 
+$X_i = \theta \cdot Z_i \sim N(0, \theta^2)$ and
+$Z_i \sim N(0,1)$ and $\theta \in \Theta = \mathbb{R} \setminus \{0\}$.\\
+
+If $\theta_1 = 1 \neq -1 = \theta_2$, then
+
+\begin{equation*}
+L(x_1, x_2, \ldots, x_n; \theta = 1) = L(x_1, x_2, \dots, x_n; \theta = -1)
+\end{equation*}
+
+for any $x = (x_1, \ldots, x_n)$.
+\end{example}
+
+\begin{result}
+The model $\{P_{\theta}, \theta \in \Theta \}$ is identifiable if there exists 
+a statistic $T(X)$ ($X \sim P_{\theta}, \theta \in \Theta$) where 
+expectation is a one-to-one function of $\theta \in \Theta$, i.e., such that
+
+\begin{equation}\label{eq1}
+\forall (\theta, \theta^{\prime}), \quad \theta \neq \theta^{\prime} \implies 
+\mathbb{E}_{\theta}(T(X)) \neq \mathbb{E}_{\theta^{\prime}}(T(X))
+\end{equation}
+
+\begin{proof}
+We use proof by contradiction. Suppose that (\ref{eq1}) holds, but there
+exists $\theta \neq \theta^{\prime}$ such that $P_{\theta} = P_{\theta^{\prime}}$.
+If so, then $\mathbb{E}_{\theta}(T(X)) = \mathbb{E}_{\theta^{\prime}}(T(X))$,
+which contradicts (\ref{eq1}).
+\end{proof}
+\end{result}
 
 
+In the previous example, $\theta = 1$, $\theta^{\prime} = -1$.
 
+\begin{example}
+Let $X_1, X_2, \ldots, X_n \overset{\mathrm{iid}}{\sim} \text{Bernoulli}(\theta)$
+where $\theta \in \Theta = [0, 1]$. We will show that $\theta$ is identifiable
+using the definition and also the above result.\\
 
+Let $\theta$ and $\theta^{\prime}$ be arbitrary and suppose 
+$\theta \neq \theta^{\prime}$ and $\theta^{\prime}$,$\theta \in \Theta$. Also
+suppose $X = (1, 1, \ldots, 1)$. Then
 
+\begin{align*}
+P_{\theta}(X_1, X_2, \ldots, X_n) &= \theta^{n}\\
+P_{\theta^{\prime}}(X_1 = 1, \ldots, X_n) &= (\theta^{\prime})^{n}.
+\end{align*}
+
+Since $\theta \in [0,1]$ then $\theta^n \neq (\theta^{\prime})^n$ and the model
+is identifiable.\\
+
+Now take a statistic $T(X_1, \ldots, X_n) = X_1$ (or we could take 
+$T(X_1, \ldots, X_n) = \sum^{n}_{i=1} X_i$ or
+$T(X_1, \ldots, X_n) = \sum^{n}_{i=1} \overbar{X}_n$).\\
+
+For any 
+$(\theta, \theta^{\prime}) \in \Theta$, if $\theta \neq \theta^{\prime}$
+then $\mathbb{E}_{\theta}(\overbar{X}_n) = \theta \neq \theta^{\prime} = 
+\mathbb{E}_{\theta^{\prime}}(\overbar{X}_n)$. Then by the above result
+the model is identifiable.
+\end{example}
 
 
 \section{Maximum Likelihood}
