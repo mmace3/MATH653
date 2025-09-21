@@ -560,6 +560,97 @@ $$ \mathbb{E}\left(X \; \middle|\;  \sum_{i =1}^{n-1} X_i = t \right) = \theta$$
 which implies that the conditional distribution depends on $\theta$.
 \end{remark}
 
+\begin{example}
+$$X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} N(\theta, 1) \quad\quad \theta \in \Theta = \mathbb{R}$$
+\end{example}
+
+Let $\displaystyle T(X) = \sum_{i = 1}^n X_i = \overbar{X}_n$. Then
+
+\begin{align*}
+\left.\
+\begin{bmatrix}
+X_1 \\
+X_2 \\
+\vdots \\
+X_n
+\end{bmatrix} 
+\;\middle|\;
+\overbar{X}_n = t
+\right.\
+\sim
+N \left(
+\begin{bmatrix}
+t \\
+t \\
+\vdots \\
+t
+\end{bmatrix},
+\begin{bmatrix}
+1 - \frac{1}{n}, & -\frac{1}{n}, & \ldots, & -\frac{1}{n} \\
+-\frac{1}{n}, & 1 - \frac{1}{n}, & \ldots, & -\frac{1}{n} \\
+\vdots & & & \\
+-\frac{1}{n}, & \ldots, & -\frac{1}{n}, & 1 - \frac{1}{n}
+\end{bmatrix}
+\right)
+\end{align*}
+
+where the multivariate normal distribution on the right does not
+depend on $\theta$. Thus $\overbar{X}_n$ is sufficient for this
+model.
+
+
+
+\section{Fisher-Neyman Factorization Theorem}
+
+Consider the model $X \sim P_{\theta}$, $\theta \in \Theta$. Then $T(X)$
+is sufficient statistic for $P_{\theta}$ if and only if there exists
+functions $g(\theta, t)$ and $h(X)$ (with appropriate domains) such that
+
+\begin{equation*}
+L(x; \theta) = g(\theta, T(x))h(x) \quad\quad \forall x; \forall \theta \in \Theta
+\end{equation*} 
+
+\begin{proof}
+\begin{enumerate}[label = (\Roman*)]
+\item Sufficient condition\\
+
+Assume  holds and we must show that $T(X)$ is sufficient.
+\end{enumerate}
+\end{proof}
+
+
+\begin{example}
+Let $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} \text{Bernoulli}(\theta)$
+where $X_i \in \{0, 1\}$. Then the likelihood is
+
+\begin{align*}
+L(x; \theta) &= P_{\theta}(X_1 = x_1, \ldots, X_n = x_n) \\
+&= \theta^{\sum\limits_{i = 1}^n x_i} (1 - \theta)^{n - \sum\limits_{i = 1}^n x_i}
+\prod_{i=1}^n I(x_i \in \{0, 1\}) \\
+&= g\left(\theta, T(x) = \sum_{i = 1}^n  x_i \right) h(x).
+\end{align*}
+ 
+Thus, $T(X) = \sum_{i = 1}^n X_i$ is sufficient for this model.
+\end{example}
+
+\begin{example}
+Let $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} N(\theta, 1)$. Then the 
+likelihood is
+
+\begin{align*}
+L(x; \theta) &= \prod_{i = 1}^n \frac{1}{\sqrt{2 \pi}} e^{-\frac{(x_i - \theta)^2}{2}}
+\prod_{i = 1}^n I(-\infty < x_i < \infty) \\
+&= e^{\theta (\sum\limits_{i = 1}^n x_i) - \frac{n \theta^2}{2}} \left( \frac{1}{\sqrt{2\pi}} \right)^n
+e^{-\frac{1}{2} \sum\limits_{i = 1}^n x_i^2} \prod_{i = 1}^n I(-\infty < x_i < \infty) \\
+&= \left[ e^{\theta n \overbar{X}_n - \frac{n \theta^2}{2}} \right] \left[ \left( \frac{1}{\sqrt{2\pi}} \right)^n
+e^{-\frac{1}{2} \sum\limits_{i = 1}^n x_i^2} \prod_{i = 1}^n I(-\infty < x_i < \infty) \right] \\
+&= g(\theta, \overbar{X}_n)h(x)
+\end{align*}
+
+Thus, $\overbar{X}_n$ is a sufficient statistic for this model.
+
+\end{example}
+
 \section{Maximum Likelihood}
 
 \begin{example}
