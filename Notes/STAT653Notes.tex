@@ -604,7 +604,7 @@ model.
 
 Consider the model $X \sim P_{\theta}$, $\theta \in \Theta$. Then $T(X)$
 is sufficient statistic for $P_{\theta}$ if and only if there exists
-functions $g(\theta, t)$ and $h(X)$ (with appropriate domains) such that
+functions $g(\theta, t)$ and $h(x)$ (with appropriate domains) such that
 
 \begin{equation*}
 L(x; \theta) = g(\theta, T(x))h(x) \quad\quad \forall x; \forall \theta \in \Theta
@@ -614,7 +614,39 @@ L(x; \theta) = g(\theta, T(x))h(x) \quad\quad \forall x; \forall \theta \in \The
 \begin{enumerate}[label = (\Roman*)]
 \item Sufficient condition\\
 
-Assume  holds and we must show that $T(X)$ is sufficient.
+Assume  holds and we must show that $T(X)$ is sufficient. We do only
+the discrete case.
+
+\begin{equation*}
+P_{\theta}(X = x \mid T(X) = t) =
+\begin{cases}
+0 & \text{if } T(x) \neq t \\
+* & \text{if } T(x) = t
+\end{cases}  
+\end{equation*}
+
+where $*$ is
+
+\begin{align*}
+* &= \frac{P_{\theta}(X = x)}{P_{\theta}(T(x) = t)} 
+= \frac{P_{\theta}(X = x)}{\sum\limits_{y:T(y) = t} P_{\theta}(X = y)} \\
+&= \frac{g(\theta, T(x) = t)h(x)}{\sum\limits_{y:T(y) = t} g(\theta, T(x) = t)h(y)} \\
+&= \frac{h(x)}{\sum\limits_{y:T(y) = t} h(y)}.
+\end{align*}
+
+Since the final expression above does not depend on $\theta$, which implies
+that $T(X)$ is a sufficient statistic for the given model.
+
+\item Necessary Condition \\
+
+Now assume that $T(X)$ is a sufficient statistic for the given model. Then
+
+\begin{align*}
+P_{\theta}(X = x) &= P_{\theta}(X = x, T(x) = T(x)) \\
+&= P(X = x \mid T(x) = t_x)P_{\theta}(T(x) = t_x) \\
+&= h(x)g(\theta, t_x).
+\end{align*}
+
 \end{enumerate}
 \end{proof}
 
