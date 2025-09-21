@@ -391,6 +391,43 @@ then $\mathbb{E}_{\theta}(\overbar{X}_n) = \theta \neq \theta^{\prime} =
 the model is identifiable.
 \end{example}
 
+\begin{example}
+\begin{equation*}
+X_1, \ldots, X_n \overset{iid}{\sim} N(\mu, \sigma^2)
+\end{equation*}
+
+\begin{enumerate}[label = Part \arabic*)]
+
+\item 
+Let $\theta = (\mu, \sigma^2) \in \Sigma = \mathbb{R} \times \mathbb{R}^2$. Then
+
+\begin{equation*}
+L(x_1, \ldots, x_n; \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}} 
+e^{\frac{-(x_i - \mu)^2}{2\sigma^2}} I(\mu \in \mathbb{R})I(\sigma^2 > 0).
+\end{equation*}
+
+It is difficult in this case to use the definition to show identifiability
+in this case, but we can use the previous result.
+
+We are given $X = (X_1, X_2, \dots, X_N)$. Let 
+
+\begin{equation*}
+T(X) = \left( \sum_{i = 1}^n X_i,  \sum^n_{i = 1} X_i^2 \right)
+\end{equation*}
+
+Then 
+\begin{align*}
+\mathbb{E}_{\theta}(T) &= (n \mu, n(\sigma^2 + \mu^2)),\\
+\mathbb{E}_{\theta^{\prime}}(T) &= (n \mu^{\prime}, n(\sigma^{2^{\prime}} + (\mu^{\prime})^2) 
+\end{align*}
+
+Thus, if $(\theta, \theta^2) \in \Theta$ then
+\begin{equation*}
+\forall \theta \neq \theta^{\prime} \implies \mathbb{E}_{\theta}(T(X)) \neq \mathbb{E}_{\theta^{\prime}}(T(X))
+\end{equation*}
+\end{enumerate}
+\end{example}
+
 
 \section{Maximum Likelihood}
 
