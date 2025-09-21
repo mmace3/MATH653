@@ -107,6 +107,15 @@
 \title{STAT 653 - Notes \\
 Introduction to Mathematical Statistics}
 
+\setcounter{tocdepth}{1}
+%-1 part
+%0 chapter     
+%1 section       
+%2 subsection  
+%3 subsubsection
+%4 paragraph
+%5 subparagraph
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -399,7 +408,7 @@ X_1, \ldots, X_n \overset{iid}{\sim} N(\mu, \sigma^2)
 \begin{enumerate}[label = Part \arabic*)]
 
 \item 
-Let $\theta = (\mu, \sigma^2) \in \Sigma = \mathbb{R} \times \mathbb{R}^2$. Then
+Let $\theta = (\mu, \sigma^2) \in \Theta = \mathbb{R} \times \mathbb{R}^2$. Then
 
 \begin{equation*}
 L(x_1, \ldots, x_n; \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}} 
@@ -423,11 +432,133 @@ Then
 
 Thus, if $(\theta, \theta^2) \in \Theta$ then
 \begin{equation*}
-\forall \theta \neq \theta^{\prime} \implies \mathbb{E}_{\theta}(T(X)) \neq \mathbb{E}_{\theta^{\prime}}(T(X))
+\forall \theta \neq \theta^{\prime} \implies \mathbb{E}_{\theta}(T(X)) \neq \mathbb{E}_{\theta^{\prime}}(T(X)).
 \end{equation*}
+
+If $\theta \neq \theta^{\prime}$ then $\mu \neq \mu^{\prime}$ or 
+$\sigma^2 \neq \sigma^{2^{\prime}}$ or $\mu \neq \mu^{\prime}$ and
+$\sigma^2 \neq \sigma^{2^{\prime}}$. In all three cases then
+$\mathbb{E}_{\prime}(T(X)) \neq \mathbb{E}_{\theta^{\prime}}(T(X))$.
+
+\item Suppose we observe only $Y_1, \ldots, Y_n$ where
+
+\begin{equation*}
+Y_i =
+\begin{cases}
++1 & \text{if } X_i \geq 0 \\
+-1 & \text{if } X_i < 0.
+\end{cases}
+\end{equation*}
+
+Since $Y_i = g(X_i)$ and the $X_i$'s are independent, then the $Y_i$'s
+are also independent.
+
+Then the likelihood function is
+
+\begin{align*}
+L(y_i, \ldots, y_n; \theta) &= \prod_{i = 1}^n P(Y_i = y_i; \theta) \\
+&= \prod_{i = 1}^n \left[ I(y_i = 1) P(X_i \geq 0) + I(y_i = -1)P(X_i < 0) \right].
+\end{align*}
+
+Now note that
+
+\begin{align*}
+P(X_i \geq 0) &= 1 - P(X_i < 0) = 1 - \Phi \left( -\frac{\mu}{\sigma} \right) = \Phi \left( \frac{\mu}{\sigma} \right)\\
+P(X_i < 0) &= \Phi \left( -\frac{\mu}{\sigma} \right)
+\end{align*}
+
+so that only the ratio $\mu/\sigma$ matters for the the likelihood.\\
+
+Now let $\theta = (3, 9) \neq (4, 16) = \theta^{\prime}$. For $\theta$ we
+have $\mu/\sigma = 3/3 = 1$ and for $\theta^{\prime}$ we have
+$\mu/\sigma = 4/4 = 1$. Thus we have
+
+$$ \theta = (3,9) \neq (4,16) = \theta^{\prime} \implies L(y; \theta) = L(y; \theta^{\prime}) $$
+
+and so the model is not identifiable. For any $y = (y_1, \ldots, y_n)$ we
+have $L(y; \theta) = L(y; \theta^{\prime})$ and thus the model is
+not identifiable.
+
+
+\begin{remark}
+Above we used the fact that for a general normal random variable $N(\mu, \sigma^2)$,
+$F(x) = \Phi((x - \mu)/\sigma)$.
+\end{remark}
 \end{enumerate}
 \end{example}
 
+\section{Sufficient Statistic}
+
+\begin{definition}
+Let $X \sim P_{\theta}$, $\theta \in \Theta$ and we observe data 
+$X = (X_1, \ldots, X_n)$. A statistic $T(X)$ is \textbf{sufficient} for
+the model $\{P_{\theta}, \theta \in \Theta \}$ if the conditional 
+distribution of $X \mid T(X)$ does not depend on $\theta$.
+\end{definition}
+
+\begin{remark}
+Consider the following 2 stage procedure. Assume $T(X)$ is a sufficient
+statistic for the model $\{P_{\theta}, \theta \in \Theta \}$.
+ 
+\begin{enumerate}[label = (\arabic*)]
+\item Suppose we observed data from $X \sim P_{\theta}$, 
+$\theta \in \Theta$. Now calculate $T(X)$, keep it and discard $X$.
+
+\item Generate $X^{\prime}$ from conditional distribution $X \mid T(X)$.
+\end{enumerate}
+
+For any $\theta \in \Theta$ calculate marginal distribution of new
+$X^{\prime}$. Then
+
+\begin{align*}
+P_{\theta}(X^{\prime} = x) &= \sum_{t} P_{\theta}(X^{\prime} = x \mid T(X) = t)P_{\theta}(T(X) = t) \\
+&= \sum_{t} P_{\theta}(X = x \mid T(X) = t)P_{\theta}(T(X) = t) \\
+&= P_{\theta}(X = x)
+\end{align*}
+
+for any $X$.
+\end{remark}
+
+\begin{example}
+Let $X = (X_1, X_2, \ldots, X_n) \overset{iid}{\sim} \text{Bernoulli}(\theta)$ where
+$\theta \in \Theta = (0, 1)$. Let 
+$T(X) = \sum_{i = 1}^n X_i \overset{iid}{\sim} \text{Binomial}(n, \theta)$. \\
+
+Then
+
+\begin{equation*}
+P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n \mid T(X) = t) =
+\begin{cases}
+0 & \text{if } t \neq \sum_{i = 1}^n x_i \\
+* & \text{if } t = \sum_{i = 1}^n x_i
+\end{cases}
+\end{equation*}
+
+where 
+
+\begin{equation*}
+* = \frac{\theta^t (1 - \theta)^{n - t}}{\binom{n}{t} \theta^t (1 - \theta)^{n - t}} =
+\frac{1}{\binom{n}{t}}
+\end{equation*}
+
+which does not depend on $\theta$.
+
+Thus the $X \mid T(X)$ has a discrete uniform distribution,
+
+\begin{equation*}
+(X_1, \ldots, X_n) \mid T(X) = t \sim \text{uniform} \left\{ x_1, \ldots, x_n :
+x_i \in \{0, 1\} \text{ and } \sum_{i = 1}^n x_i = t \right\}
+\end{equation*}
+\end{example}
+
+\begin{remark}
+In the above example $\sum_{i = 1}^{n-1} X_i$ is not a sufficient statistic. To
+see this note that
+
+$$ \mathbb{E}\left(X \; \middle|\;  \sum_{i =1}^{n-1} X_i = t \right) = \theta$$
+
+which implies that the conditional distribution depends on $\theta$.
+\end{remark}
 
 \section{Maximum Likelihood}
 
