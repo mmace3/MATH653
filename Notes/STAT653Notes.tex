@@ -815,6 +815,41 @@ is a sufficient statistic for $P_{\theta}$, $\theta \in \Theta$ where
 $T(X)$ is the vector of order statistics.
 \end{result}
 
+\begin{proof}
+Let $(X_1, \ldots, X_n) \sim P_{\theta}$, $\theta \in \Theta$ are
+exchangable random variables. Let $y_1 \leq y_2 \leq \ldots \leq y_n$ 
+be the observed order statistics. Then
+
+\begin{align*}
+P_{\theta}(X_1 = x_1, X_2, = x_2, \ldots, X_n = x_n \mid X_{(1)} = y_1, \ldots, X_{(n)} = y_n) \\
+= \begin{cases}
+* & \text{if } \{x_1, \ldots x_n \} = \{y_1, \ldots, y_n \} \\
+0 & \text{if } \{x_1, \ldots, x_n \} \neq \{y_1, \ldots, y_n \}
+\end{cases}
+\end{align*}
+
+where
+
+\begin{align*}
+* &= \frac{P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)}
+{P_{\theta}(X_{(1)} = y_1, \ldots, X_{(n)} = y_n)} \\
+&= \frac{P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)}
+{\sum\limits_{\substack{ \text{all} \\ \text{possible} \\ \text{permutations}}} 
+P_{\theta}(X_1 = y_{\pi(1)}, \ldots, X_n = y_{\pi (n)})} \\
+&= \frac{P_{\theta}(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)}
+{\sum\limits_{\substack{ \text{all} \\ \text{possible} \\ \text{permutations}}} 
+P_{\theta}(X_1 = x_{\pi(1)}, \ldots, X_n = x_{\pi (n)})} \\
+&= \frac{P_{\theta}(X_1 = x_1, \ldots, X_n = x_n)}
+{n! P_{\theta}(X_1 = x_1, \ldots, X_n = x_n)} \\
+&= \frac{1}{n!}.
+\end{align*}
+
+
+Note that $1/n!$ does not depend on $\theta$ for all $\theta \in \Theta$. Therefore,
+by definition, the vector of order statistics is sufficient for model
+$P_{\theta}$, $\theta \in \Theta$.
+\end{proof}
+
 \begin{example}
 \begin{equation*}
 \begin{bmatrix}
@@ -852,9 +887,171 @@ $T_1$, but not vice versa. This leads to the next definition.
 
 \section{Minimal Sufficient Statistic}
 
+\begin{definition}
+Let $X \sim P_{\theta}$, $\theta \in \Theta$. The sufficient statistic, $S(X)$, 
+is minimal sufficient if there is a function of any other sufficient statistic.
+This means that for any sufficient statistic $T(X)$ there exists a function
+$f:S(X) = f(T(X))$.
+\end{definition}
+
+We can use the following lemma to check for minimal sufficiency.
+
+\begin{lemma}
+Let $X \sim P_{\theta}$, $\theta \in \Theta$. A sufficient statistic $S(X)$
+is minimal sufficient if
+
+\begin{equation*}
+\frac{L(x; \theta)}{L(y; \theta)} \text{ does not depend on } \theta \implies
+S(x) = S(y), \quad \forall \theta \in \Theta.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+Let $x, y$ be such that $T(x) = T(y)$. Suppose the implication in the lemma
+holds and let $T(X)$ be a sufficient statistic. Then
+
+\begin{equation*}
+\frac{L(x; \theta)}{L(y; \theta)} = \frac{g(\theta, T(x))h(x)}{g(\theta, T(y))h(y)}
+= \frac{h(x)}{h(y)}
+\end{equation*}
+
+which does not depend on $theta$, for all $\theta \in \Theta$. Then this implies
+that $S(x) = S(y)$. \\
+
+Recall that $T(x)$ is arbitrary. Above we showed that $T(x) = T(y) \implies S(x) = S(y)$.
+Now choose another sufficient statistic, $T_1(X)$. Then 
+$T_1(x) = T_1(y) \implies S(x) = S(y)$. Then if follows that
+
+$$ S(x) = f(T(x)).$$
+
+We won't write the formal proof because it will take a while.
+\end{proof}
+
+\begin{remark}
 
 
+\begin{enumerate}[label = (\arabic*)]
+\item If $S(x) = S(y)$ then 
 
+\begin{equation*}
+\frac{g(\theta; S(x))h(x)}{g(\theta, S(y))h(y)} = \frac{h(x)}{h(y)}
+\end{equation*}
+
+which does not depend on $\theta$ for all $\theta \in \Theta$.
+
+\item $A \implies B$ is equivalent to $B^c \implies A^c$.
+
+\item The meaning of the left hand side of the implication in the above
+lemma is
+
+\begin{equation*}
+L(x; \theta) = c(x, y)L(y; \theta), \quad \forall \theta \in \Theta.
+\end{equation*}
+
+\end{enumerate}
+\end{remark}
+
+\begin{example}
+Let $X = (X_1, \ldots, X_n)$ where $X_i \overset{iid}{\sim} N(\theta, 1)$ where
+$\theta \in \Theta = \mathbb{R}$.
+\end{example}
+
+
+\section{Ancillary Statistic}
+
+\begin{definition}
+Let $X \sim P_{\theta}$, $\theta \in \Theta$.
+\begin{enumerate}[label = (\arabic*)]
+
+\item A statistic, $A(X)$, whose distribution does not depend on $\theta$
+is called \textbf{ancillary}.
+
+\item If $\mathbb{E}_{\theta}(A^{*}(X))$ does not depend on $\theta$ then
+$A^{*}(X)$ is \textbf{first-order ancillary}.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+Ancillary $\implies$ first-order ancillary, but first-order ancillary
+$\notimplies$ ancillary.
+\end{remark}
+
+\begin{example}
+Let $X_1, X_2 X_n \overset{iid}{\sim} N(\theta, 1), \quad \theta \in \Theta = \mathbb{R}$.\\
+
+A sufficient statistic for this model is
+ 
+$$ S(X) = X_1 + X_2 \sim N(2\theta, 2). $$
+
+An ancillary statistic for this model is 
+
+$$ A(X) = X_1 - X_2 \sim N(0, 2). $$
+\end{example}
+
+\begin{example}
+
+\begin{equation*}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+\sim
+N \left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix}
+\right),
+\quad
+-1 < \rho < 1
+\end{equation*}
+
+In this example $\theta = \rho$. A sufficient statistic for this model is
+
+$$ S(X) = (X_1^2 + X_2^2, X_1 X_2). $$
+
+Note $X_1 \sim N(0, 1)$ and $X_2 \sim N(0, 1)$ are not independent. \\
+
+Then two ancillary statistics are
+
+\begin{align*}
+A_1(X) &= X_1 \\
+A_2(X) &= X_2.
+\end{align*}
+
+A first-order ancillary statistic is
+
+$$ A^* (X) = X_1^2 + X_2^2 $$
+
+because $\mathbb{E}_{\theta} (A^* (X) ) = 2$.\\
+
+Another ancillary statistic is 
+
+$$ A(X) = I(-1 \leq X_1 < 1) + I(-1 \leq X_2 \leq 1). $$
+
+\end{example}
+
+\section{Scale and Location Family}
+
+\begin{enumerate}
+
+\item \underline{Location Family}
+
+Let $X \sim F$ where $F$ is some distribution function that does not depend
+on any unknown parameters, e.g., $N(0,1)$. Let $\theta \in \Theta = \mathbb{R}$ and
+define
+
+$$ Y = X + \theta. $$
+
+Then $Y$ is in a location family. The distribution function for $Y$ is
+
+$$ F_Y(t) = P(Y \leq t) = P(X \leq t - \theta) = F_X(t - \theta). $$
+
+\end{enumerate}
 
 \section{Maximum Likelihood}
 
