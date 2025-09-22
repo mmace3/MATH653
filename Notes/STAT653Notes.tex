@@ -116,6 +116,9 @@ Introduction to Mathematical Statistics}
 %4 paragraph
 %5 subparagraph
 
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -682,6 +685,176 @@ e^{-\frac{1}{2} \sum\limits_{i = 1}^n x_i^2} \prod_{i = 1}^n I(-\infty < x_i < \
 Thus, $\overbar{X}_n$ is a sufficient statistic for this model.
 
 \end{example}
+
+
+\begin{example}
+
+\begin{equation*}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix} \sim
+N \left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+,
+\begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix}
+\right),
+\quad
+-1 < \rho < 1,
+\quad
+-\infty < x_1, x_2, < \infty
+\end{equation*}
+
+Suppose we have on observation $x = (x_1, x_2)$. Then 
+the likelihood is
+
+\begin{align*}
+L(x ; \rho) &= \frac{1}{2 \pi \sqrt{1 - \rho}} e^{-\frac{x_1^2 + x_2^2 - 2\rho x_1 x_2}{2(1 - \rho^2)}}
+I(-\infty < x_1, x_2 < \infty) \\
+&=g(\rho; T(x) = (x_1^2 + x^2_2, x_1 x_2)) h(x)
+\end{align*}
+
+where $h(x) = 1$. Now suppose we have $n$ observations
+
+\begin{equation*}
+x =
+\left(
+\begin{bmatrix}
+x_{11} \\
+x_{21}
+\end{bmatrix},
+\begin{bmatrix}
+x_{12} \\
+x_{22}
+\end{bmatrix},
+\ldots,
+\begin{bmatrix}
+x_{1n} \\
+x_{2n}
+\end{bmatrix}
+\right)
+\end{equation*}
+
+where each vector in $x$ is independent of all others. Then the sufficient
+statistic $T(X)$ is
+
+\begin{equation*}
+T(x) = \left( \sum_{j=1}^n (x_{1j}^2 + x_{2j}^2 ), \sum_{j = 1}^n x_{1j}x_{2j} \right).
+\end{equation*}
+\end{example}
+
+\section{Exchangable Random Variables}
+
+\begin{definition}
+The random variables $X_1, X_2, \ldots, X_n$ are \textbf{exchangable} 
+random variables if
+
+\begin{equation*}
+(X_1, \ldots, X_n) \sim (X_{\pi(1)}, \ldots, X_{\pi(n)})
+\end{equation*}
+
+for any permutation $\pi(1), \ldots, \pi(n)$ of integers $1, 2, \ldots, n$.
+\end{definition}
+
+\begin{remark}
+If $X_1, \ldots, X_n$ are identically and independently distributed 
+$\implies$ $X_1, \ldots, X_n$ are exchangable. However, $X_1, \ldots, X_n$
+are exchangable $\notimplies$ $X_1, \ldots, X_n$ are identically and
+independently distributed.
+\end{remark}
+
+\begin{example}
+\begin{equation*}
+P(X_1 = x_1, X_2 = x_2) = P(X_2 = x_2, X_1 = x_1)
+\end{equation*}
+\end{example}
+
+\begin{example}
+
+\begin{equation*}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix} \sim
+N \left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+,
+\begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix}
+\right),
+\quad
+-1 < \rho < 1,
+\quad
+-\infty < x_1, x_2, < \infty
+\end{equation*}
+
+Suppose we have on observation $x = (x_1, x_2)$.
+
+Then $f_{x_1, x_2}(x_1, x_2 ; \rho) = f_{x_1, x_2}(x_2, x_1; \rho)$ so that
+$(X_1, X_2) \sim (X_2, X_1)$.
+\end{example}
+
+\begin{result}
+If $(X_1, \ldots, X_n) \sim P_{\theta}$, $\theta \in \Theta$ are
+exchangable random variables then 
+
+$$ T(X) = (X_{(1)}, \ldots, X_{(n)}) $$
+
+is a sufficient statistic for $P_{\theta}$, $\theta \in \Theta$ where
+$T(X)$ is the vector of order statistics.
+\end{result}
+
+\begin{example}
+\begin{equation*}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix} \sim
+N \left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+,
+\begin{bmatrix}
+1 & \rho \\
+\rho & 1
+\end{bmatrix}
+\right),
+\quad
+-1 < \rho < 1,
+\quad
+-\infty < x_1, x_2, < \infty
+\end{equation*}
+
+Suppose we have on observation $x = (x_1, x_2)$.
+
+From the previous result we have $T(x) = (x_{(1)}, x_{(2)})$ is
+sufficient. \\
+
+We know already that $T_1(x) = (x_1^2 + x_2^2, x_1 x_2)$ is sufficient and
+we just showed that $T_2(x) = (x_{(1)}, x_{(2)})$ is also sufficient. \\
+
+Then $T_1$ is a function of $T_2$. So if we know $T_2$ then we can calculate
+$T_1$, but not vice versa. This leads to the next definition.
+\end{example}
+
+\section{Minimal Sufficient Statistic}
+
+
+
+
 
 \section{Maximum Likelihood}
 
