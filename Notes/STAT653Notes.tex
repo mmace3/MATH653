@@ -1037,9 +1037,8 @@ $$ A(X) = I(-1 \leq X_1 < 1) + I(-1 \leq X_2 \leq 1). $$
 
 \section{Scale and Location Family}
 
-\begin{enumerate}
 
-\item \underline{Location Family}
+\subsection{Location Family}
 
 Let $X \sim F$ where $F$ is some distribution function that does not depend
 on any unknown parameters, e.g., $N(0,1)$. Let $\theta \in \Theta = \mathbb{R}$ and
@@ -1051,7 +1050,107 @@ Then $Y$ is in a location family. The distribution function for $Y$ is
 
 $$ F_Y(t) = P(Y \leq t) = P(X \leq t - \theta) = F_X(t - \theta). $$
 
-\end{enumerate}
+
+\begin{remark}
+Let $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} F$ where $F$ is
+a distribution function that does not depend on any unknown parameters.
+Let $Y_1, Y_2, \ldots, Y_n$ be independent random variables from a
+location family.
+
+Then
+
+\begin{align*}
+Y_1 - Y_2 &= (X_1 + \theta) - (X + \theta) \\
+&= X_1 - X_2.
+\end{align*}
+
+Thus, $Y_1 - Y_2$ is an ancillary statistic. Also,
+
+\begin{align*}
+Y_{(j)} - Y_{(i)} &= (X_{(j)} + \theta) - (X_{(i)} + \theta) \\
+&= X_{(j)} - X_{(i)}.
+\end{align*}
+
+Thus, $Y_{(j)} - Y_{(i)}$ is ancillary.
+\end{remark}
+
+\subsection{Scale Family}
+
+Let $X \sim F$ where $F$ is some distribution function that does not depend
+on any unknown parameters, e.g., $N(0,1)$. Let $\sigma \in \mathbb{R}_{+} = \Theta$. Then
+
+$$ Y = \sigma \cdot X $$
+
+is in a scale family. The distribution function for $Y$ is
+
+$$ F_Y(t) = P(Y \leq t) = P(\sigma X \leq t) = P \left(X \leq \frac{t}{\sigma} \right) = 
+F_X \left(\frac{t}{\sigma} \right) \quad \forall t \in \mathbb{R}. $$
+
+\begin{remark}
+Let $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} F$ where $F$ is
+a distribution function that does not depend on any unknown parameters.
+Let $Y_1, Y_2, \ldots, Y_n$ be independent random variables from a
+scale family.
+
+Then
+
+\begin{equation*}
+\frac{Y_1}{Y_2} = \frac{\sigma X_1}{\sigma X_2} = \frac{X_1}{X_2}.
+\end{equation*}
+
+Thus $\displaystyle \frac{Y_1}{Y_2}$ is an ancillary statistic. Also
+
+\begin{equation*}
+\frac{Y_{(1)}}{Y_{(2)}} = \frac{\sigma X_{(1)}}{\sigma X_{(2)}}.
+\end{equation*}
+
+Thus $\displaystyle \frac{Y_{(1)}}{Y_{(2)}}$ is an ancillary statistic.
+\end{remark}
+
+\subsection{Location-scale Family}
+
+Let $X \sim F$ where $F$ is some distribution function that does not depend
+on any unknown parameters, e.g., $N(0,1)$. Let $\sigma \in \mathbb{R}_{+} = \Theta$ and
+$\theta \in \mathbb{R}$. Then
+
+$$ Y = \sigma \cdot X + \theta $$
+
+is in a location-scale family.
+
+\begin{remark}
+Let $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} F$ where $F$ is
+a distribution function that does not depend on any unknown parameters.
+Let $Y_1, Y_2, \ldots, Y_n$ be independent random variables from a 
+location-scale family.
+
+Then
+
+\begin{equation*}
+\frac{Y_1 - Y_2}{Y_3 - Y_4}
+\end{equation*}
+
+does not depend on $\sigma$ or $\theta$. We could also write
+
+\begin{equation*}
+\frac{Y_1 - Y_2}{Y_2 - Y_4}.
+\end{equation*}
+
+\end{remark}
+
+
+
+
+
+\section{Point Estimation}
+
+\begin{equation*}
+X \sim P_{\theta}, \quad \theta \in \Theta.
+\end{equation*}
+
+We want to estimate $\theta$ or some function $g(\theta)$ based on the
+sample $X$.
+
+
 
 \section{Maximum Likelihood}
 
