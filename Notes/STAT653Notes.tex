@@ -1139,8 +1139,6 @@ does not depend on $\sigma$ or $\theta$. We could also write
 
 
 
-
-
 \section{Point Estimation}
 
 \begin{equation*}
@@ -1149,6 +1147,95 @@ X \sim P_{\theta}, \quad \theta \in \Theta.
 
 We want to estimate $\theta$ or some function $g(\theta)$ based on the
 sample $X$.
+
+
+\begin{example} Taxi Example
+
+$$ 1, 2, \ldots, N$$
+
+where $N$ is an unknown parameter. Take a random sample without
+replacement of size $X_1, \ldots, X_n \in \{1, 2, \ldots, N\}$. We
+know that $X_{(n)}$ is a sufficient statistic for this model.
+
+Then
+
+$$ \mathbb{E}(X_{(n)}) = a_n \cdot N + b_n $$
+
+and so we can estimate $N$ as
+
+$$ \widehat{N} = \frac{X_{(N)} - b_n}{a_n}.$$
+\end{example}
+
+
+\section{Method of Moments}
+
+$$ X_1, \ldots, X_n \overset{iid}{\sim} P_{\theta}, \quad \theta \in \Theta $$
+
+Let
+
+\begin{align*}
+\mu_1 &= \mathbb{E}_{\theta}(X_1) = \mathbb{E} \left( \frac{1}{n} \sum_{i=1}^n X_i \right) = \mathbb{E}(m_1) \\
+\mu_2 &= \mathbb{E}_{\theta}(X_1^2) = \mathbb{E} \left(\frac{1}{n} \sum_{i = 1}^n X^2_i \right) = \mathbb{E}(m_2) \\
+&\vdots \\
+\mu_k &= \mathbb{E}_{\theta}(X_1^k) = \mathbb{E} \left( \frac{1}{n} \sum_{i=1}^n X_i^k \right) = \mathbb{E}(m_k).
+\end{align*}
+
+We want to estimate $g(\mu_1, \mu_2, \ldots, \mu_k)$ and with the method of moments we use
+$g(m_1, m_2, \ldots, m_k)$ as our estimator.
+
+However, the method of moments can lead to estimates outside of the sample space and
+non-unique estimates.
+
+\begin{example}
+$$ X_1, \ldots, X_n \overset{\text{iid}}{\sim} \text{Bernoulli}(\theta), \quad
+\theta \in \Theta = \left[ \frac{1}{4}, \frac{3}{4} \right] $$
+
+Then
+
+$$ \mu_1 = \mathbb{E}(X_1) = \theta $$ 
+
+and
+
+$$ g(\mu_1) = g(\theta) = \theta. $$
+
+Now we plug in 
+
+$$ g(m_1) = m_1 = \frac{1}{n} \sum_{i=1}^n X_i \in [0,1]. $$
+
+Since $X_i \in \{0, 1\}$ then this estimator could result
+in an estimate outside of the sample space.
+\end{example}
+
+
+\begin{example}
+
+$$X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} \text{Poisson}(\theta), \quad \theta \in \mathbb{R}_+ $$ 
+
+Then
+
+$$ \mu_1 = \mathbb{E}(X_1) = E(m_1) = \theta \equiv g(\theta) $$
+
+and our estimate of $\theta$ is
+
+$$ \widehat{\theta} = g(m_1) = m_1 = \frac{1}{n} \sum_{i=1}^n X_i = T_1(X). $$
+
+Now $\mu_2$ is
+
+$$ \mu_2 = \mathbb{E}(X_1^2) = \mathbb{E}(m_2) = \theta + \theta^2 $$
+
+and then
+
+\begin{align*}
+m_2 = \theta + \theta^2 = T_2(X) + T_2^2(X) \\
+\implies T_2^2(X) - T_2(X) - \mu_2 = 0.
+\end{align*} 
+
+\end{example}
+
+
+\begin{example}
+$$ X_1, \ldots, X_n \overset{\text{iid}}{\sim} \text{Gamma}(\theta, \beta), \quad \alpha, \beta > 0$$
+\end{example}
 
 
 
