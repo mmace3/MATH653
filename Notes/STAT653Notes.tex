@@ -1235,17 +1235,105 @@ m_2 = \theta + \theta^2 = T_2(X) + T_2^2(X) \\
 
 \begin{example}
 $$ X_1, \ldots, X_n \overset{\text{iid}}{\sim} \text{Gamma}(\theta, \beta), \quad \alpha, \beta > 0$$
+
+\begin{align*}
+\mu_1 &= \mathbb{E}(X_1) = \mathbb{E}(m_1) = \frac{\alpha}{\beta} \\
+\mu_2 &= \mathbb{E}(X_1^2) = \mathbb{E}(m_2) = \frac{\alpha}{\beta^2} + \frac{\alpha^2}{\beta^2}
+\end{align*}
+
+and setting the sample moments equal to the population moments we have
+
+\begin{align*}
+m_1 &= \frac{\alpha}{\beta} \\
+m_2 = \frac{\alpha}{\beta^2} + \frac{\alpha^2}{\beta^2}
+\end{align*}
+
+and we must solve these two equations for $\alpha$ and $\beta$ to
+get method of moments estimates.
+
 \end{example}
 
 
+\section{Empirical Distribution Function}
+
+$$ X_1, \ldots, X_n \overset{\text{iid}}{\sim} F$$ 
+
+where $F(t) = P(X_1 \leq t)$, for all $t \in \mathbb{R}$. Then based on
+a sample $x_1, \ldots, x_n$ define the empirical distribution function $F_n(t)$
+as
+
+\begin{align*}
+F_n(t) &= \frac{\# \{x_i \leq t, i = 1, \ldots, n \}}{n} \\
+&= \frac{1}{n} \sum_{i = 1}^n I(x_i \leq t) \\
+&= T_n
+\end{align*}
+
+where
+
+\begin{align*}
+I(X_1 \leq t) &\overset{\text{iid}}{\sim} \text{Bernoulli}(F(t)) \\
+T_n &\overset{\text{iid}}{\sim} \text{Binoimal}(n, F(t)) \\
+\end{align*}
+
+and
+
+\begin{align*}
+\mathbb{E}(F_n(t)) &= F(t), \quad \forall t \in \mathbb{R} \\
+\text{Var}(F_n(t)) &= \frac{F(t)(1-F(t))}{n} \leq \frac{1}{4n}.
+\end{align*}
+
+Note that $F_n(t)$ is a consistent estimator as
+
+$$ \forall \epsilon > 0, \quad \lim_{n \rightarrow \infty} P(|F_n(t) - F(t)| > \epsilon) = 0. $$
+
+
+\section{Least Square Estimator}
+
+We have data $(X_1, Y_1), \ldots, (X_n, Y_n)$. Then consider the model
+
+$$Y_i = g_i(x_i; \theta) + \epsilon_i $$
+
+where $g$ is a known function, $theta$ is an unknown parameter, and
+$\epsilon_i$ is a random error term.
+
+Then our estimate of $\theta$ is
+
+\begin{equation*}
+\widehat{\theta} = \operatorname*{argmin}_{\theta \in \Theta} \sum_{i = 1}^n (Y_i - g_i(x_i; \theta))^2.
+\end{equation*}
+
+
+\begin{example}
+$$Y_i = \alpha + \beta x_i + \epsilon_i$$
+\end{example}
 
 \section{Maximum Likelihood}
 
+$$ X \sim P_{\theta}, \quad \theta \in \Theta $$
+
+We define the MLE of $\theta$ as
+
+$$ \widehat{\theta}(x) = \operatorname*{argmax}_{\theta \in \Theta} L(x; \theta) $$
+
+where $L(x; \theta)$ is the likelihood function.
+
 \begin{example}
-Let $X_1, \ldots, X_n \overset{iid}{\sim} uniform[0,\theta]$. Find the MLE for $\theta$.
+$$ X_1, \ldots, X_n \overset{\text{iid}}{\sim} \text{Bernoulli}, \quad \theta \in \Theta = [0,1] $$
+
+The likelihood function is
+
+\begin{align*}
+L(x_1, \ldots, x_n; \theta) &= \sum_{i = 1}^n x_i (1 - \theta)^{n = \sum x_i} \\
+&=
+\end{align*}
+
 \end{example}
 
+\begin{example}
+Let $X_1, \ldots, X_n \overset{\text{iid}}{\sim} uniform[0,\theta]$. Find the MLE for $\theta$.
+\end{example}
 
+We want to estimate $\alpha$ and $\beta$. We have
 
 
 \end{document}
